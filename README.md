@@ -88,7 +88,7 @@ $ export MYSQL_USER="<username>";
 $ export MYSQL_PASS="<password>";
 ```
 
-Creamos la base de datos con:
+Teniendo arrancado MySQL, creamos la base de datos con:
 
 ```
 $ npm run create_db
@@ -100,7 +100,7 @@ Ejecutamos las migraciones para que se creen las tablas en la Base de Datos crea
 $ npm run migrate_db
 ```
 
-Ejecutamos los seeders para añadir hospitales, pacientes y medicos por defecto a la base de datos:
+Ejecutamos los seeders para añadir una serie hospitales, pacientes y medicos por defecto a la base de datos:
 
 ```
 $ npm run seed_db
@@ -116,147 +116,146 @@ Abra un navegador y vaya a la url "http://localhost:8001" para ver la aplicació
 
 **NOTA: Cada vez que se quiera realizar una prueba del código desarrollado, debemos parar y arrancar de nuevo la practica. Para ello, desde el terminal pulse ctrl+c para parar y arranque de nuevo con npm start**
 
+**NOTA2: Si ha modificado alguna tabla de manera indeseada y se quiere volver a restablecer los valores por defecto, se puede ejecutar npm run drop_db para borrar la Base de Datos. Puede volver a crear, migrar y poblar la base de datos de nuevo con los comandos expuestos anteriormente**
+
 ## 5. Tareas a realizar
 
-Que version de Node tienen? Porque no se si funciona esta vaina en node 8
+El alumno deberá editar dos ficheros:
 
-Corregir la errata de las transpas para poner order en vez de ordering y comentarlo en el foro
+- controllers/controller.js. Se le provee un esqueleto con todos los funciones que deberá rellenar. En cada uno de estas funciones se deberá hacer uso del ORM Sequelize para realizar operaciones con la base de datos y devolver un resultado de la operación.
 
-Fijarse en el modelo patients en lo de que el patient id se genera solo (default value)
+- models/models.js. A parte, deberá editar este fichero, en el espacio habilitado para ello, para añadir asociaciones entre los modelos que se encuentran dentro de la carpetal models:
+    - Relacion 1:N entre Hospital y Paciente
+    - Relacion N:M entre Paciente y Doctor
 
-Tienen la opcion npm run drop_db para borrar la base de datos y que creen otra vez la base de datos
 
-hay que ponerles un anexo con las mierdas que se generan de createPatient y todo eso 
+**NOTA: recuerde que las peticiones a las bases de datos son asíncronas por ello los métodos que ejecutan deben ser asincronos (como puede observar en la cabecera de los mismos) y por tanto las operaciones con Sequelize deben ir precedidas del termino await. Por ejemplo, "var restaurantes = await Restaurante.findAll()" guardaría en la variable "restaurantes" el resultado de ejecutar la operación "findAll()"" del modelo Restaurante definido con Mongoose**
 
-hay que decirles que tienen que hacer un return de todas las vainas y meterle await a todo
+En cuanto a las funciones que debe editar en controller.js debe hacer lo siguiente:
 
-El alumno deberá editar el fichero patient.js ubicado en la carpeta controllers. Se le provee un esqueleto con todos los funciones que deberá rellenar. En cada uno de estas funciones se deberá hacer uso del ODM Mongoose para realizar operaciones con la base de datos y devolver un resultado de la operación.
-
-**NOTA: recuerde que las peticiones a las bases de datos son asíncronas por ello los métodos que ejecutan deben ser asincronos (como puede observar en la cabecera de los mismos) y por tanto las operaciones con Mongoose deben ir precedidas del termino await. Por ejemplo, "var restaurantes = await Restaurante.find()" guardaría en la variable "restaurantes" el resultado de ejecutar la operación "find()"" del modelo Restaurante definido con Mongoose**
-
-Las funciones hacen lo siguiente:
-
-### list()
+### list_hospitals()
 
 **Descipcion:**
-- Busca en la base de datos todos los pacientes existentes en la coleccion "Paciente"
+- Busca en la base de datos todos los hospitales existentes en la coleccion "Hospital"
 
 **Parametros:**
 
 - Ninguno
 
+**Returns:**
+
+- Un array de objetos de hospitales
+
+### filterHospitalsByCity(city)
+
+**Descipcion:**
+- Busca en la colección "Hospital" filtrando por ciudad
+
+**Parametros:**
+
+- city - ciudad a buscar
+
+**Returns:**
+
+- Un array de objetos de hospitales
+
+### list_hospital_patients(hospital_id)
+
+**Descipcion:**
+- Busca todos los pacientes correspondientes a un hospital
+
+**Parametros:**
+
+- hospital_id - Ide del hospital
 
 **Returns:**
 
 - Un array de objetos de pacientes
 
-### read(patientId)
+### read(patient_id)
 
 **Descipcion:**
-- Busca en la colección "Paciente" el paciente cuyo id corresponde con el de patientId
+- Busca los datos de un paciente
 
 **Parametros:**
 
-- patientId - Id del paciente a buscar
+- patient_id - Id del paciente a actualizar
 
 **Returns:**
 
-- Un objeto con todos los atributos del paciente
+- Un objeto paciente
 
-### create(body)
+### create(hospital_id, name, surname, dni)
 
 **Descipcion:**
-- Crea un nuevo paciente en la colleción "Paciente" de Mongo
+- Crea un paciente dentro de un hospital
 
 **Parametros:**
 
-- body - Objeto que contiene los datos rellenados a través de la web
+- hospital_id - Id del hospital
+- name - Nombre del paciente
+- surname - Apellido del paciente 
+- dni - DNI del paciente
 
 **Returns:**
 
-- El nuevo objeto paciente creado
+- El objeto paciente creado
 
-### update(patientId, body)
+### update(patient_id, name, surname, dni)
 
 **Descipcion:**
-- Actualiza los datos del paciente en la base datos
+- Actualiza los datos del paciente identificado por patient_id
 
 **Parametros:**
 
-- patientId - Id del paciente a actualizar
-- body - Objeto que contiene los datos rellenados a través de la web
+- patient_id - Id del paciente
+- name - Nombre del paciente
+- surname - Apellido del paciente 
+- dni - DNI del paciente
 
 **Returns:**
 
-- El objeto paciente con los datos actualizados
+- El objeto paciente actualizado
 
-### delete(patientId)
+### delete(patient_id)
 
 **Descipcion:**
-- Elimina un paciente de la base dadtos
+- Borra un paciente de la base de datos
 
 **Parametros:**
 
-- patientId - Id del paciente a eliminar
+- patient_id - Id del paciente
 
 **Returns:**
 
-- El resultado de la operacion de borrado
+- El resultado de la operación de borrado
 
-### filterPatientsByCity(city)
+### assignDoctor(patient_id, doctor_id)
 
 **Descipcion:**
-- Obtiene todos los pacientes de la base de datos de Mongo en base a su ciudad de origen
+- Asigna un medico a un paciente en la base de datos.
 
 **Parametros:**
 
-- city - String del nombre de la ciudad
+- patient_id - Id del paciente
+- hospital_id - Id del hospital
 
 **Returns:**
 
-- Un array de objetos de pacientes
+- Devuelve los datos del paciente al que se le ha asignado el medico
 
-### filterPatientsByDiagnosis(diagnosis)
+### showPatientDoctors(patient_id)
 
 **Descipcion:**
-- Obtiene todos los pacientes de la base de datos de Mongo en base a sus diagnosticos
+- Devuelve los doctores que estan asignados a un paciente.
 
 **Parametros:**
 
-- diagnosis - String que representa el diagnostico de un paciente
+- patient_id - Id del paciente
 
 **Returns:**
 
-- Un array de objetos de pacientes
-
-### filterPatientsBySpeacialistAndDate(specialist, sDate,fDate)
-
-**Descipcion:**
-- Obtiene todos los pacientes de la base de datos de Mongo en base al especialista y que la consulta se hiciese dentro de un rango de fechas 
-
-**Parametros:**
-
-- specialist - String con el especialista medico
-- sdate - Fecha de inicio de la busqueda de consultas (Ej: 2016-03-24)
-- fdate - Fecha de final de la busqueda de consultas (Ej: 2019-08-14)
-
-**Returns:**
-
-- Un array de objetos de pacientes
-
-### addPatientHistory(patientId, medicalRecord) 
-
-**Descipcion:**
-- Añade un nueva consulta al historial medico del paciente representado por patientId
-
-**Parametros:**
-
-- patientId - Id del paciente al que se le añade una nueva consulta al historial
-- medicalRecord - Objeto con los datos de la consulta
-
-**Returns:**
-
-- El objeto paciente con los datos actualizados incluido la nueva consulta
+- Un array de objetos de doctores 
 
 
 ## 6. Prueba de la práctica 
@@ -283,8 +282,7 @@ $ autocorector --upload
 El alumno podrá subir al Moodle la entrega tantas veces como desee pero se quedará registrada solo la última subida.
 
 **RÚBRICA**: Cada método que se pide resolver de la practica se puntuara de la siguiente manera:
--  **1 punto por cada uno de las siguientes funciones realizadas:**  list, read, create, update, delete, filterPatientsByCity y filterPatientsByDiagnosis
--  **1,5 puntos por cada uno de las siguientes funciones realizadas:**  filterPatientsBySpeacialistAndDate y addPatientHistory 
+-  **1 punto por cada uno de las siguientes funciones realizadas:**  list_hospitals, filterHospitalsByCity, list_hospital_patients, read, create, update y delete
+-  **1,5 puntos por cada uno de las siguientes funciones realizadas:**  assignDoctor y showPatientDoctors 
 
 Si pasa todos los tests se dará la máxima puntuación. 
-

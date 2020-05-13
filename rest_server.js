@@ -62,7 +62,7 @@ app.get('/hospitals/:hospitalId/patients/:patientId', async (req, res, next) => 
 
 app.put('/hospitals/:hospitalId/patients/:patientId', async (req, res, next) => {
 	let patient = await Controller.update(req.params.patientId, req.body.name, req.body.surname, req.body.dni).catch(e => next(e));
-	res.render('show', {patient: patient});
+	res.render('show', {patient: patient, hospital: req.params.hospitalId});
 });
 
 app.delete('/hospitals/:hospitalId/patients/:patientId', async (req, res, next) => {
