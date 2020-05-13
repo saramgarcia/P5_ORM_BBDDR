@@ -1,10 +1,10 @@
 {
-  "name": "bbdd-practica-orm.git",
+  "name": "bbdd-practica-orm",
   "author": "ging",
   "license": "GNU",
   "version": "0.0.1",
   "info": {
-      "githubURL": "ging/bbdd-practica-orm.git",
+      "githubURL": "ging/bbdd-practica-orm",
       "serverUrl": "https://autocorector.dit.upm.es/",
       "courseId": "7775",
       "assignmentId": "84105"
