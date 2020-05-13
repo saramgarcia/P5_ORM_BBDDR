@@ -53,8 +53,6 @@ const Patient = sequelize.define(
       underscored: true,
     }
   );
-
-  return
 ```
 
 El **controlador** ejecuta acciones sobre los modelos. El alumno deberá desarrollar el controlador para que las acciones que se realicen a través de la página web funcionen correctamente. Para ello, desarrollara las operaciones correspondientes con Sequelize implementando las operaciones CRUD sobre los objetos patiente, hospital y doctor, así como otra serie de queries.
