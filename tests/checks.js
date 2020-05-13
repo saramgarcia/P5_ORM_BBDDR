@@ -101,7 +101,7 @@ describe("P5_ORM_BBDD", function () {
             let hospitals;
             try {    
                 hospitals = await Controller.list_hospitals();
-            } catch (err) { error_critical = err }
+            } catch (err) { this.msg_err = err }
 
             should.equal(hospitals.length, 5)
             should.equal(typeof hospitals[0], 'object');
@@ -123,7 +123,7 @@ describe("P5_ORM_BBDD", function () {
             try {
                 hospitals1 = await Controller.filterHospitalsByCity('Madrid');
                 hospitals2 = await Controller.filterHospitalsByCity('Barcelona');
-            } catch (err) { error_critical = err }
+            } catch (err) { this.msg_err = err }
 
             should.equal(hospitals1.length, 2);
             should.equal(hospitals2.length, 1);
@@ -145,7 +145,7 @@ describe("P5_ORM_BBDD", function () {
             try {
                 patients1 = await Controller.list_hospital_patients('db6da10f-4ec4-468a-ad46-36a407480fa7');
                 patients2 = await Controller.list_hospital_patients('d2dc1154-1329-4e56-a5c3-8e88b63f3c4a');
-            } catch (err) { error_critical = err }
+            } catch (err) { this.msg_err = err }
 
             should.equal(patients1[0].id, '623f492d-a42c-481e-bf21-c0acbc1b90f8');
             should.equal(patients2[0].id, 'a1965d07-caae-407d-8df1-060e88015932');
@@ -166,7 +166,7 @@ describe("P5_ORM_BBDD", function () {
             try {
                 patient1 = await Controller.read('8ec8c43b-f7e1-43e4-b70f-6d5a9799a86a');
                 patient2 = await Controller.read('923ec756-87b7-4743-808b-795a04b6dd21');
-            } catch (err) { error_critical = err }
+            } catch (err) { this.msg_err = err }
 
             should.equal(patient1.name, 'Carlos');
             should.equal(patient2.name, 'Diana');
@@ -188,7 +188,7 @@ describe("P5_ORM_BBDD", function () {
             try {
                 patient1 = await Controller.create('b04fde75-59d8-457f-82b9-c25f2c64abfc', 'Cristina', 'Sainz', '7843573');
                 patient2 = await Patient.findOne({where: { dni: '7843573'}})
-            } catch (err) { error_critical = err }
+            } catch (err) { this.msg_err = err }
 
             should.equal(patient1.name, patient2.name);
             should.equal(patient1.hospital_id, patient2.hospital_id);
@@ -209,7 +209,7 @@ describe("P5_ORM_BBDD", function () {
             try {
                 patient1 = await Controller.update('3a268172-6c5c-4d9b-8964-8b9a1e531af5', 'Pedro', 'Sanchez', '555555');
                 patient2 = await Patient.findByPk('3a268172-6c5c-4d9b-8964-8b9a1e531af5');
-            } catch (err) { error_critical = err }
+            } catch (err) { this.msg_err = err }
 
             should.equal(patient2.name, 'Pedro');
             should.equal(patient2.surname, 'Sanchez');
@@ -229,7 +229,7 @@ describe("P5_ORM_BBDD", function () {
             try {
                 await Controller.delete('088d58e2-7691-47b6-a322-eeffcadc9054');
                 patientDeleted = await Patient.findByPk('088d58e2-7691-47b6-a322-eeffcadc9054');
-            } catch (err) { error_critical = err }
+            } catch (err) { this.msg_err = err }
 
             should.equal(patientDeleted, null);
         }
@@ -248,38 +248,40 @@ describe("P5_ORM_BBDD", function () {
             try {
                 await Controller.assignDoctor('a1965d07-caae-407d-8df1-060e88015932','8f5cb256-7f39-4293-817a-b5e50a0e0062');
                 patient = await Patient.findByPk('a1965d07-caae-407d-8df1-060e88015932');
-            } catch (err) { error_critical = err }
+            } catch (err) { this.msg_err = err }
 
             let doctors;
             try {
                 doctors = await patient.getDoctors()
-            } catch (err) { error_critical = err }
+            } catch (err) {
+                if (err.message.includes('patient.getDoctors')) {
+                    this.msg_err = `La relacion paciente-doctor no es correcta`;
+                } else {
+                    this.msg_err = err 
+                }
+            }
             
             should.equal(doctors[0].id, '8f5cb256-7f39-4293-817a-b5e50a0e0062');
         }
     });
 
 
-    it("(8): Comprobando que showPatientDoctors muestra medicos correctamente...", async function () {
+    it("(9): Comprobando que showPatientDoctors muestra medicos correctamente...", async function () {
         this.score = 1.5;
-        if (error_critical) {
-            this.msg_err = error_critical;
-            should.not.exist(error_critical);
-        } else {
-            this.msg_ok = `Muestra medicos correctamente`;
-            this.msg_err = `No muestra medicos correctamente`;
-            
-            let doctors;
-            try {
-                doctors = await Controller.showPatientDoctors('3a268172-6c5c-4d9b-8964-8b9a1e531af5');
-            } catch (err) { error_critical = err }
+        this.msg_ok = `Muestra medicos correctamente`;
+        this.msg_err = `No muestra medicos correctamente`;
+        
+        let doctors;
+        try {
+            doctors = await Controller.showPatientDoctors('3a268172-6c5c-4d9b-8964-8b9a1e531af5');
+        } catch (err) { this.msg_err = err }
 
-            should.equal(doctors.length, 2);
-        }
+        should.equal(doctors.length, 2);
     });
 
 
     after('Delete testing database', async function() {
+
         const drop_database ='mysql -u ' +process.env.MYSQL_USER +' -p' +process.env.MYSQL_PASS +" -e 'DROP DATABASE orm_bbdd_test;'";
 
         try {
