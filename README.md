@@ -116,6 +116,8 @@ Tienen la opcion npm run drop_db para borrar la base de datos y que creen otra v
 
 hay que ponerles un anexo con las mierdas que se generan de createPatient y todo eso 
 
+hay que decirles que tienen que hacer un return de todas las vainas y meterle await a todo
+
 El alumno deberá editar el fichero patient.js ubicado en la carpeta controllers. Se le provee un esqueleto con todos los funciones que deberá rellenar. En cada uno de estas funciones se deberá hacer uso del ODM Mongoose para realizar operaciones con la base de datos y devolver un resultado de la operación.
 
 **NOTA: recuerde que las peticiones a las bases de datos son asíncronas por ello los métodos que ejecutan deben ser asincronos (como puede observar en la cabecera de los mismos) y por tanto las operaciones con Mongoose deben ir precedidas del termino await. Por ejemplo, "var restaurantes = await Restaurante.find()" guardaría en la variable "restaurantes" el resultado de ejecutar la operación "find()"" del modelo Restaurante definido con Mongoose**
