@@ -3,6 +3,7 @@
   "author": "ging",
   "license": "GNU",
   "version": "0.0.1",
+  "disableHashCheck": true,
   "info": {
       "githubURL": "ging/bbdd-practica-orm",
       "serverUrl": "https://autocorector.dit.upm.es/",

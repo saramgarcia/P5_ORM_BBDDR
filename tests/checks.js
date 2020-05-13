@@ -248,13 +248,19 @@ describe("P5_ORM_BBDD", function () {
             try {
                 await Controller.assignDoctor('a1965d07-caae-407d-8df1-060e88015932','8f5cb256-7f39-4293-817a-b5e50a0e0062');
                 patient = await Patient.findByPk('a1965d07-caae-407d-8df1-060e88015932');
-            } catch (err) { this.msg_err = err }
+            } catch (err) { 
+                if (err.message.includes('getDoctors')) {
+                    this.msg_err = `La relacion paciente-doctor no es correcta`;
+                } else {
+                    this.msg_err = err 
+                } 
+            }
 
             let doctors;
             try {
                 doctors = await patient.getDoctors()
             } catch (err) {
-                if (err.message.includes('patient.getDoctors')) {
+                if (err.message.includes('getDoctors')) {
                     this.msg_err = `La relacion paciente-doctor no es correcta`;
                 } else {
                     this.msg_err = err 
@@ -274,7 +280,13 @@ describe("P5_ORM_BBDD", function () {
         let doctors;
         try {
             doctors = await Controller.showPatientDoctors('3a268172-6c5c-4d9b-8964-8b9a1e531af5');
-        } catch (err) { this.msg_err = err }
+        } catch (err) { 
+            if (err.message.includes('getDoctors')) {
+                this.msg_err = `La relacion paciente-doctor no es correcta`;
+            } else {
+                this.msg_err = err 
+            }
+        }
 
         should.equal(doctors.length, 2);
     });
