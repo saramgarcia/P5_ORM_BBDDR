@@ -116,7 +116,7 @@ Abra un navegador y vaya a la url "http://localhost:8001" para ver la aplicació
 
 **NOTA: Cada vez que se quiera realizar una prueba del código desarrollado, debemos parar y arrancar de nuevo la practica. Para ello, desde el terminal pulse ctrl+c para parar y arranque de nuevo con npm start**
 
-**NOTA2: Si ha modificado alguna tabla de manera indeseada y se quiere volver a restablecer los valores por defecto, se puede ejecutar npm run drop_db para borrar la Base de Datos. Puede volver a crear, migrar y poblar la base de datos de nuevo con los comandos expuestos anteriormente**
+**NOTA2: Si ha modificado alguna tabla de manera indeseada y se quiere volver a restablecer los valores por defecto, se puede ejecutar "npm run drop_db" para borrar la Base de Datos. Puede volver a crear, migrar y poblar la base de datos de nuevo con los comandos expuestos anteriormente**
 
 ## 5. Tareas a realizar
 
