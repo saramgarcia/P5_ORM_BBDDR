@@ -9,41 +9,55 @@
 
 ## 1. Objetivo
 
-- Desarrollar las 4 operaciones CRUD (Create, Read, Update and Delete) a través de un ODM
-- Practicar con un ODM para realizar queries mas avanzadas
-- Identificar las ventajas de usar ODMs
+- Desarrollar las 4 operaciones CRUD (Create, Read, Update and Delete) a través de un ORM
+- Practicar con un ORM para realizar queries mas avanzadas
+- Identificar las ventajas de usar ORMs
 
 ## 2. Dependencias
 
 Para realizar la práctica el alumno deberá tener instalado en su ordenador:
 - Herramienta GIT para gestión de repositorios [Github](https://git-scm.com/downloads)
 - Entorno de ejecución de javascript [NodeJS](https://nodejs.org/es/download/)
-- Base de datos NoSQL [MongoDB](https://www.mongodb.com/download-center/community)
+- Base de datos MySQL [MySQL](https://dev.mysql.com/downloads/)
 
 ## 3. Descripción de la práctica
 
-La práctica simula una aplicación de gestión de pacientes basada en el patron MVC (Modelo-Vista-Controlador) y en el ODM de MongoDB para NodeJS: Mongoose.
+La práctica simula una aplicación de gestión de pacientes basada en el patron MVC (Modelo-Vista-Controlador) utilizando Sequelize como ORM para NodeJS para poder almacenar los datos de la aplicación en MySQL.
 
 La **vista** es una interfaz web basada en HTML y CSS que permite realizar diversas acciones sobre los pacientes como crear, editar, buscar, filtrar, listar o eliminar. La vista esta incluida ya en el codigo descargado.
 
-El **modelo** es la representación de la información de los pacientes. El modelo que se usará en esta práctica es el siguiente:
+El **modelo** es la representación de la información de los pacientes. En esta apliación se van a usar tres modelos: doctor, hospital y patient. Un ejemplo de como están definidos los modelos en esta práctica es el siguiente:
 
 ```
-PatientSchema = Schema({
-    name: String,
-    surname: String,
-    dni: String, 
-    city: String,
-    profession: Array,
-    medicalHistory: [{
-    	specialist: String,
-    	diagnosis: String,
-    	date: Date,
-    }]
-});
+const Patient = sequelize.define(
+    'Patient',
+    {
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+      },
+      name: {
+        type: DataTypes.STRING()
+      },
+      surname: {
+        type: DataTypes.STRING()
+      },
+      dni: {
+        type: DataTypes.STRING()
+      }
+    },
+    {
+      tableName: 'patient',
+      timestamps: true,
+      underscored: true,
+    }
+  );
+
+  return
 ```
 
-El **controlador** ejecuta acciones sobre el modelo Paciente. El alumno deberá desarrollar el controlador del paciente para que las acciones que se realicen a través de la página web funcionen correctamente. Para ello, desarrollara las operaciones correspondientes con Mongoose implementando las operaciones CRUD sobre el objeto paciente, así como otra serie de queries.
+El **controlador** ejecuta acciones sobre los modelos. El alumno deberá desarrollar el controlador para que las acciones que se realicen a través de la página web funcionen correctamente. Para ello, desarrollara las operaciones correspondientes con Sequelize implementando las operaciones CRUD sobre los objetos patiente, hospital y doctor, así como otra serie de queries.
 
 En el siguiente video puede observar cual sería el funcionamiento normal de la aplicación [link](https://www.youtube.com/watch?v=OAwlZS5Z9FM)
 
