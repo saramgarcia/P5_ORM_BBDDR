@@ -129,7 +129,7 @@ El alumno deberá editar dos ficheros:
     - Relacion N:M entre Paciente y Doctor
 
 
-**NOTA: recuerde que las peticiones a las bases de datos son asíncronas por ello los métodos que ejecutan deben ser asincronos (como puede observar en la cabecera de los mismos) y por tanto las operaciones con Sequelize deben ir precedidas del termino await. Por ejemplo, "var restaurantes = await Restaurante.findAll()" guardaría en la variable "restaurantes" el resultado de ejecutar la operación "findAll()"" del modelo Restaurante definido con Mongoose**
+**NOTA: recuerde que las peticiones a las bases de datos son asíncronas por ello los métodos que ejecutan deben ser asincronos (como puede observar en la cabecera de los mismos) y por tanto las operaciones con Sequelize deben ir precedidas del termino await. Por ejemplo, "var pacientes = await Paciente.findAll()" guardaría en la variable "pacientes" el resultado de ejecutar la operación "findAll()"" del modelo Paciente definido con Sequelize**
 
 En cuanto a las funciones que debe editar en controller.js debe hacer lo siguiente:
 
