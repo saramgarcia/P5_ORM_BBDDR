@@ -10,8 +10,8 @@
 ## 1. Objetivo
 
 - Desarrollar las 4 operaciones CRUD (Create, Read, Update and Delete) a través de un ORM
-- Practicar con un ORM para realizar queries mas avanzadas
-- Identificar las ventajas de usar ORMs
+- Practicar con un ORM para realizar queries
+- Afianzar las ventajas de usar ORMs en el desarrollo de aplicaciones
 
 ## 2. Dependencias
 
