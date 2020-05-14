@@ -5,10 +5,10 @@
   "version": "0.0.1",
   "disableHashCheck": true,
   "info": {
-      "githubURL": "BBDD-ETSIT/P5_ORM_BBDDR",
-      "serverUrl": "https://autocorector.dit.upm.es/",
-      "courseId": "7775",
-      "assignmentId": "84105"
+    "githubURL": "BBDD-ETSIT/P5_ORM_BBDDR",
+    "serverUrl": "https://autocorector.dit.upm.es/",
+    "courseId": "7775",
+    "assignmentId": "84105"
   },
   "scripts": {
     "start": "node rest_server.js",
