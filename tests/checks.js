@@ -26,14 +26,13 @@ describe("P5_ORM_BBDD", function () {
     this.timeout(T_TEST * 1000);
 
     before('Create and populate testing database', async function() {
-        const create_database ='mysql -u ' +process.env.MYSQL_USER +' -p' +process.env.MYSQL_PASS +" -e 'CREATE DATABASE IF NOT EXISTS orm_bbdd_test;'";
-        const load_data ='mysql -u ' +process.env.MYSQL_USER +' -p' +process.env.MYSQL_PASS +' orm_bbdd_test < tests/backup.sql';
 
         try {
-            await exec(create_database)
-            let { stdout, stderr } = await exec(load_data)
-            console.log(stderr)
-            console.log(stdout)
+            await exec('cross-env NODE_ENV=test npm run create_db')
+            await exec('cross-env NODE_ENV=test npm run migrate_db')
+            await exec('cross-env NODE_ENV=test npm run seed_db')
+
+            //let { stdout, stderr } = await exec(load_data)
             models = await models_lib.configure_db('orm_bbdd_test');
             Hospital = models.Hospital;
             Patient = models.Patient;
@@ -41,8 +40,9 @@ describe("P5_ORM_BBDD", function () {
             Controller = require('../controllers/controller')(models);
             console.log('Base de datos de testing creada satisfactoriamente.');
         } catch (error) {
+            console.log(error)
             console.error('Unable to create the database.');
-            error_critical = 'Unable to create the database. Está arrancada la BD? Has configurado las variables de entorno con el user y pass de MySQL? Has importado la base de datos employees?';
+            error_critical = 'Unable to create the database. Está arrancada la BD? Has configurado las variables de entorno con el user y pass de MySQL?';
             if (!process.env.MYSQL_USER || !process.env.MYSQL_PASS) {
                 console.error('Has configurado las variables de entorno con el user y pass de MySQL?');
             };
@@ -56,7 +56,6 @@ describe("P5_ORM_BBDD", function () {
             this.msg_err = error_critical;
             should.not.exist(error_critical);
         } else {
-
 
             this.msg_ok = `Encontrado el directorio '${node_modules}'`;
             this.msg_err = `No se encontró el directorio '${node_modules}'`;
@@ -82,7 +81,6 @@ describe("P5_ORM_BBDD", function () {
             let hospitals_count = await Hospital.count();
             let patient_count = await Patient.count();
             let doctor_count = await Doctor.count();
-
             should.equal(hospitals_count, 5)
             should.equal(patient_count, 7)
             should.equal(doctor_count, 7)          
@@ -293,11 +291,8 @@ describe("P5_ORM_BBDD", function () {
 
 
     after('Delete testing database', async function() {
-
-        const drop_database ='mysql -u ' +process.env.MYSQL_USER +' -p' +process.env.MYSQL_PASS +" -e 'DROP DATABASE orm_bbdd_test;'";
-
         try {
-            await exec(drop_database)
+            await exec('cross-env NODE_ENV=test npm run drop_db')
             console.log('Base de datos de testing borrada satisfactoriamente.');
         } catch (error) {
             console.error('Unable to delete the database.');
