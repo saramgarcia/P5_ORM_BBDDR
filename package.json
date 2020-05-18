@@ -1,11 +1,11 @@
 {
-  "name": "bbdd-practica-orm",
+  "name": "P5_ORM_BBDDR",
   "author": "ging",
   "license": "GNU",
   "version": "0.0.1",
   "disableHashCheck": true,
   "info": {
-    "githubURL": "ging/bbdd-practica-orm",
+    "githubURL": "BBDD-ETSIT/P5_ORM_BBDDR",
     "serverUrl": "https://autocorector.dit.upm.es/",
     "courseId": "7775",
     "assignmentId": "84105"
