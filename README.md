@@ -84,8 +84,11 @@ $ npm install
 A continuación deben configurarse los datos de acceso a MySQL mediante las variables de entorno:
 
 ```
-$ export MYSQL_USER="<username>";
-$ export MYSQL_PASS="<password>";
+[LINUX/MAC] $ export MYSQL_USER="<username>";
+[LINUX/MAC] $ export MYSQL_PASS="<password>";
+
+[WINDOWS] > set MYSQL_USER="<username>";
+[WINDOWS] > set MYSQL_PASS="<password>";
 ```
 
 Teniendo arrancado MySQL, creamos la base de datos con:
