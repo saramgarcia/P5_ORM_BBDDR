@@ -95,18 +95,27 @@ Teniendo arrancado MySQL, creamos la base de datos con:
 
 ```
 $ npm run create_db
+
+* Si en Windows no funciona se puede probar a ejecutar lo siguiente en el terminal:
+$ .\node_modules\.bin\sequelize db:create
 ```
 
 Ejecutamos las migraciones para que se creen las tablas en la Base de Datos creada previamente:
 
 ```
 $ npm run migrate_db
+
+* Si en Windows no funciona se puede probar a ejecutar lo siguiente en el terminal:
+$ .\node_modules\.bin\sequelize db:migrate
 ```
 
 Ejecutamos los seeders para añadir una serie hospitales, pacientes y medicos por defecto a la base de datos:
 
 ```
 $ npm run seed_db
+
+* Si en Windows no funciona se puede probar a ejecutar lo siguiente en el terminal:
+$ .\node_modules\.bin\sequelize db:seed:all
 ```
 
 Por último podemos arrancar la práctica con:
