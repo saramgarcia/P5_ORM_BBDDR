@@ -1,14 +1,14 @@
 {
   "name": "P5_ORM_BBDDR",
-  "author": "ging",
+  "author": "BBDD-ETSIT",
   "license": "GNU",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "disableHashCheck": true,
   "info": {
     "githubURL": "BBDD-ETSIT/P5_ORM_BBDDR",
     "serverUrl": "https://autocorector.dit.upm.es/",
-    "courseId": "7775",
-    "assignmentId": "84105"
+    "courseId": "2110",
+    "assignmentId": "16981"
   },
   "scripts": {
     "start": "node rest_server.js",
